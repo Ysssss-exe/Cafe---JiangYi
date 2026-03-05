@@ -220,33 +220,33 @@
 
 <script>
     // --- 劇本資料庫 (全 PNG 精準路徑版) ---
+    // --- 劇本資料庫 (已加入 Menu 與 Love Seat，並全面修正為 .jpg) ---
     const scriptLines = [
-        { bg: "JiangYi/Street-1.png", speaker: "女主角 (OS)", text: "好累……經歷了一個早上的課程，好想找個地方趴一下……<br>嗯？好濃郁的咖啡烘焙香氣……" },
-        { bg: "JiangYi/Wind chimes.png", speaker: "", text: "（妳順著香味，推開了街角一間咖啡廳的門。）<br>— 清脆的風鈴聲響起 —" },
-        { bg: "JiangYi/Start Counter.png", speaker: "江逸", text: "你好～歡迎光臨，請問今天想喝點什麼？" },
-        { bg: "JiangYi/Start Counter.png", speaker: "女主角 (OS)", text: "（有點累，腦袋鈍鈍的，不想再思考了……）", 
+        { bg: "JiangYi/Street-1.jpg", speaker: "女主角 (OS)", text: "好累……經歷了一個早上的課程，好想找個地方趴一下……<br>嗯？好濃郁的咖啡烘焙香氣……" },
+        { bg: "JiangYi/Wind chimes.jpg", speaker: "", text: "（妳順著香味，推開了街角一間咖啡廳的門。）<br>— 清脆的風鈴聲響起 —" },
+        { bg: "JiangYi/Start Counter.jpg", speaker: "江逸", text: "你好～歡迎光臨，請問今天想喝點什麼？" },
+        { bg: "JiangYi/Menu.jpg", speaker: "女主角 (OS)", text: "（有點累，腦袋鈍鈍的，不想再思考了……看看菜單上有什麼吧……）", 
           options: [
               { text: "我第一次來，請問有什麼推薦的嗎？", nextLine: 4 },
               { text: "我想要……一杯熱美式就好……", nextLine: 5 }
           ] 
         },
         // 選項 A 路線 (Index 4)
-        { bg: "JiangYi/Making Coffee.png", speaker: "江逸", text: "看妳好像有點累。如果怕太苦的話，可以考慮「熱的燕麥奶拿鐵」。<br>燕麥奶的甜味會中和濃縮咖啡的苦澀，適合想稍微打起精神，但怕咖啡因太多的時候。", nextLine: 6 },
+        { bg: "JiangYi/Making Coffee.jpg", speaker: "江逸", text: "看妳好像有點累。如果怕太苦的話，可以考慮「熱的燕麥奶拿鐵」。<br>燕麥奶的甜味會中和濃縮咖啡的苦澀，適合想稍微打起精神，但怕咖啡因太多的時候。", nextLine: 6 },
         // 選項 B 路線 (Index 5)
-        { bg: "JiangYi/Making Coffee.png", speaker: "江逸", text: "好的，一杯熱美式。<br>不過看妳好像有點累，如果怕美式太傷胃，要不要幫妳換成溫和一點的「熱的燕麥奶拿鐵」？", nextLine: 6 },
+        { bg: "JiangYi/Making Coffee.jpg", speaker: "江逸", text: "好的，一杯熱美式。<br>不過看妳好像有點累，如果怕美式太傷胃，要不要幫妳換成溫和一點的「熱的燕麥奶拿鐵」？", nextLine: 6 },
         
         // 合流路線 (Index 6)
-        { bg: "JiangYi/Start Counter.png", speaker: "女主角", text: "（好貼心的提醒……）<br>好～那一杯熱的燕麥奶拿鐵就可以了～謝謝你！" },
-        { bg: "JiangYi/Start Counter.png", speaker: "江逸", text: "有想坐在哪裡嗎？如果不介意的話，可以考慮靠窗的那個座位。" },
-        { bg: "JiangYi/Seat Window.png", speaker: "女主角", text: "好啊，謝謝你！" },
-        { bg: "JiangYi/Seat Window.png", speaker: "女主角", text: "（輕輕深呼吸，嘴角緩緩揚起）" },
-        { bg: "JiangYi/Seat Window.png", speaker: "女主角 (OS)", text: "感覺坐在這裡好放鬆……似乎找到了屬於自己的秘密基地了呢～" },
+        { bg: "JiangYi/Start Counter.jpg", speaker: "女主角", text: "（好貼心的提醒……）<br>好～那一杯熱的燕麥奶拿鐵就可以了～謝謝你！" },
+        { bg: "JiangYi/Start Counter.jpg", speaker: "江逸", text: "有想坐在哪裡嗎？如果不介意的話，可以考慮靠窗的那個座位。" },
+        { bg: "JiangYi/Love Seat.jpg", speaker: "女主角", text: "好啊，謝謝你！" },
+        { bg: "JiangYi/Love Seat.jpg", speaker: "女主角", text: "（走向靠窗的座位，輕輕深呼吸，嘴角緩緩揚起）" },
+        { bg: "JiangYi/Seat Window.jpg", speaker: "女主角 (OS)", text: "感覺坐在這裡好放鬆……似乎找到了屬於自己的秘密基地了呢～" },
         
         // 托盤與紙條事件 (Index 11)
-        { bg: "JiangYi/Tray.png", speaker: "女主角", text: "好香的味道～<br>（看著托盤上的咖啡，旁邊似乎壓著一張折起來的紙條）", action: "showPaperInteract" },
-        { bg: "JiangYi/Tray.png", speaker: "旁白", text: "看完紙條的那刻，心頭暖暖的，露出了十分滿足的微笑。" }
+        { bg: "JiangYi/Tray.jpg", speaker: "女主角", text: "好香的味道～<br>（看著托盤上的咖啡，旁邊似乎壓著一張折起來的紙條）", action: "showPaperInteract" },
+        { bg: "JiangYi/Tray.jpg", speaker: "旁白", text: "看完紙條的那刻，心頭暖暖的，露出了十分滿足的微笑。" }
     ];
-
     // --- 遊戲核心變數 ---
     let historyStack = []; 
     let currentIndex = 0;

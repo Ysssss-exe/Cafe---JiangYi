@@ -5,196 +5,135 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cafe JiangYi - 初次相遇</title>
     <style>
-        /* --- 基礎設定與畫面排版 --- */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #111;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: "Microsoft JhengHei", sans-serif;
-            overflow: hidden;
-        }
+    /* --- 新增：往回按鈕樣式 --- */
+    #back-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background-color: rgba(166, 124, 82, 0.7);
+        color: white;
+        border: 1px solid #fff;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 100;
+        font-size: 16px;
+        transition: 0.3s;
+    }
 
-        #game-container {
-            position: relative;
-            width: 1280px; /* 遊戲標準寬度 */
-            height: 720px; /* 遊戲標準高度 */
-            background-color: #000;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
-            overflow: hidden;
-        }
+    #back-btn:hover {
+        background-color: rgba(166, 124, 82, 1);
+    }
 
-        /* 背景圖片 */
-        #bg-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        /* --- 對話框設計 --- */
-        #dialogue-box {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            height: 180px;
-            background-color: rgba(20, 20, 20, 0.85); /* 黑色半透明底 */
-            border: 2px solid #a67c52; /* 咖啡色邊框 */
-            border-radius: 10px;
-            box-sizing: border-box;
-            padding: 40px 30px 20px 30px;
-            color: #fff;
-            cursor: pointer;
-            display: none; /* 預設隱藏 */
-        }
-
-        /* 說話者名字 */
-        #speaker-name {
-            position: absolute;
-            top: -20px;
-            left: 30px;
-            background-color: #a67c52; /* 呼應咖啡廳的顏色 */
-            color: #fff;
-            padding: 5px 20px;
-            font-size: 22px;
-            font-weight: bold;
-            border-radius: 5px;
-            letter-spacing: 2px;
-            display: none;
-        }
-
-        /* 對話內文 */
-        #dialogue-text {
-            font-size: 22px;
-            line-height: 1.6;
-            letter-spacing: 1px;
-        }
-
-        /* --- 選項按鈕設計 --- */
-        #options-container {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 60%;
-            display: none; /* 預設隱藏 */
-        }
-
-        .option-btn {
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
-            border: 2px solid #a67c52;
-            padding: 15px 20px;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .option-btn:hover {
-            background-color: #a67c52;
-            color: #fff;
-        }
-
-        /* --- 紙條互動系統 --- */
-        #interact-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 2px dashed #a67c52;
-            padding: 15px 30px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #5c3a21;
-            cursor: pointer;
-            border-radius: 10px;
-            animation: pulse 1.5s infinite;
-            display: none; /* 預設隱藏 */
-        }
-
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(166, 124, 82, 0.7); }
-            70% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 0 15px rgba(166, 124, 82, 0); }
-            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(166, 124, 82, 0); }
-        }
-
-        /* 紙條特寫畫面 (Modal) */
-        #paper-modal {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: none; /* 預設隱藏 */
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-        }
-
-        #paper-content {
-            background-color: #fdf5e6; /* 紙張顏色 */
-            width: 500px;
-            height: 300px;
-            padding: 40px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            box-shadow: 2px 2px 15px rgba(0,0,0,0.5);
-            font-family: "Kaiti", "DFKai-SB", serif; /* 營造手寫字體感 */
-            font-size: 30px;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-            transform: rotate(-2deg); /* 微微傾斜更自然 */
-        }
-
-        .click-hint {
-            position: absolute;
-            bottom: 10px;
-            right: 20px;
-            font-size: 14px;
-            color: #888;
-        }
-
-    </style>
-</head>
-<body>
+    /* 隱藏預設按鈕 */
+    #back-btn:disabled {
+        display: none;
+    }
+</style>
 
 <div id="game-container">
-    <img id="bg-image" src="" alt="背景">
-    
-    <div id="options-container"></div>
-
-    <div id="interact-btn" onclick="openPaper()">點擊查看紙條</div>
-
-    <div id="paper-modal" onclick="closePaper()">
-        <div id="paper-content">
-            『WIFI密碼 JiangYiCafe』
-            『可以坐久一點沒關係。』
-            <span class="click-hint">▼ 點擊關閉</span>
-        </div>
+    <button id="back-btn" onclick="prevLine()" disabled>← 往回</button>
     </div>
-
-    <div id="dialogue-box" onclick="nextLine()">
-        <div id="speaker-name"></div>
-        <div id="dialogue-text"></div>
-        <span class="click-hint">▼ 點擊繼續</span>
-    </div>
-</div>
 
 <script>
+    // --- 歷史記錄堆疊 ---
+    let historyStack = []; 
+    let currentIndex = 0;
+    let isWaitingForInput = false;
+
+    // --- 核心控制函數 (修改版) ---
+    function renderLine(index, isBacking = false) {
+        if (index >= scriptLines.length) return;
+
+        const line = scriptLines[index];
+        
+        // 更新 UI
+        document.getElementById("bg-image").src = line.bg;
+        const nameBox = document.getElementById("speaker-name");
+        nameBox.innerText = line.speaker || "";
+        nameBox.style.display = line.speaker ? "block" : "none";
+        document.getElementById("dialogue-text").innerHTML = line.text;
+        document.getElementById("dialogue-box").style.display = "block";
+
+        // 更新「往回」按鈕狀態：第一頁時不顯示
+        document.getElementById("back-btn").disabled = (historyStack.length === 0);
+
+        // 如果不是在往回跑，就紀錄當前索引
+        if (!isBacking) {
+            // 在進入新的一行前，紀錄舊的 index
+        }
+
+        // 處理紙條
+        if (line.action === "showPaperInteract") {
+            isWaitingForInput = true;
+            document.getElementById("interact-btn").style.display = "block";
+            document.getElementById("dialogue-box").style.pointerEvents = "none";
+        } else {
+            document.getElementById("interact-btn").style.display = "none";
+        }
+
+        // 處理選項
+        const optionsContainer = document.getElementById("options-container");
+        if (line.options) {
+            isWaitingForInput = true;
+            document.getElementById("dialogue-box").style.pointerEvents = "none";
+            optionsContainer.innerHTML = "";
+            line.options.forEach(opt => {
+                const btn = document.createElement("div");
+                btn.className = "option-btn";
+                btn.innerText = opt.text;
+                btn.onclick = () => selectOption(opt.nextLine);
+                optionsContainer.appendChild(btn);
+            });
+            optionsContainer.style.display = "flex";
+        } else {
+            optionsContainer.style.display = "none";
+        }
+    }
+
+    // 「下一句」邏輯
+    function nextLine() {
+        if (isWaitingForInput) return;
+
+        // 紀錄目前的索引到歷史堆疊
+        historyStack.push(currentIndex);
+
+        const currentLine = scriptLines[currentIndex];
+        if (currentLine.nextLine !== undefined) {
+            currentIndex = currentLine.nextLine;
+        } else {
+            currentIndex++;
+        }
+        renderLine(currentIndex);
+    }
+
+    // 「往回」邏輯 (新增)
+    function prevLine() {
+        if (historyStack.length === 0) return;
+
+        // 從堆疊中取出上一個索引
+        currentIndex = historyStack.pop();
+        
+        // 重置等待狀態
+        isWaitingForInput = false;
+        document.getElementById("dialogue-box").style.pointerEvents = "auto";
+        
+        renderLine(currentIndex, true);
+    }
+
+    // 修改 selectOption，讓它也支援紀錄
+    function selectOption(nextIndex) {
+        historyStack.push(currentIndex); // 紀錄選選項前的這一頁
+        document.getElementById("options-container").style.display = "none";
+        document.getElementById("dialogue-box").style.pointerEvents = "auto";
+        isWaitingForInput = false;
+        currentIndex = nextIndex;
+        renderLine(currentIndex);
+    }
+
+    // 初始啟動
+    window.onload = () => { renderLine(currentIndex); };
+</script>
     // --- 劇本資料庫 ---
    // --- 劇本資料庫 (已根據你的 PNG 檔案修正路徑) ---
     const scriptLines = [

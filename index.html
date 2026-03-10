@@ -191,26 +191,75 @@
             font-size: 14px;
             color: #888;
         }
+
+        /* =========================================
+           新增：主選單與隱形按鈕設定 
+           ========================================= */
+        #main-menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200; /* 設定超高層級，蓋住所有遊戲畫面 */
+            background-color: #000;
+        }
+
+        .menu-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hitbox {
+            position: absolute;
+            cursor: pointer;
+            border-radius: 12px;
+            /* 💡 開發小技巧：微調位置時，把下面這行最前面的 /* 跟最後面的 */ 刪掉，就會顯示紅色區塊 */
+            /* background-color: rgba(255, 0, 0, 0.4); */
+        }
+
+        /* 角色卡片隱形區塊位置 */
+        .top-left { top: 11%; left: 12.5%; width: 36%; height: 35%; }
+        .top-right { top: 11%; right: 12.5%; width: 36%; height: 35%; }
+        .bottom-left { top: 51%; left: 12.5%; width: 36%; height: 35%; }
+        .bottom-right { top: 51%; right: 12.5%; width: 36%; height: 35%; }
+
+        /* 下方選單按鈕隱形區塊位置 */
+        .btn-start { top: 88%; left: 26.5%; width: 8.5%; height: 6%; border-radius: 20px; }
+        .btn-load { top: 88%; left: 38.5%; width: 8.5%; height: 6%; border-radius: 20px; }
+        .btn-settings { top: 88%; left: 50.5%; width: 10%; height: 6%; border-radius: 20px; }
+        .btn-extras { top: 88%; left: 63%; width: 8.5%; height: 6%; border-radius: 20px; }
     </style>
 </head>
 <body>
 
 <div id="game-container">
-    <img id="bg-image" src="" alt="背景">
     
+    <div id="main-menu">
+        <img src="介面定案.jpg" alt="主畫面" class="menu-bg">
+        
+        <div class="hitbox top-left" onclick="alert('金髮角色路線開發中！')" title="金髮角色"></div>
+        <div class="hitbox top-right" onclick="alert('排球角色路線開發中！')" title="排球角色"></div>
+        <div class="hitbox bottom-left" onclick="alert('圖書館角色路線開發中！')" title="圖書館角色"></div>
+        <div class="hitbox bottom-right" onclick="startGame('JiangYi')" title="咖啡廳角色 (江逸)"></div>
+
+        <div class="hitbox btn-start" onclick="startGame('JiangYi')" title="START"></div>
+        <div class="hitbox btn-load" onclick="alert('讀取存檔功能開發中！')" title="LOAD"></div>
+        <div class="hitbox btn-settings" onclick="alert('設定頁面開發中！')" title="SETTINGS"></div>
+        <div class="hitbox btn-extras" onclick="alert('額外內容開發中！')" title="EXTRAS"></div>
+    </div>
+    <img id="bg-image" src="" alt="背景">
     <button id="back-btn" onclick="prevLine()" disabled>← 往回</button>
-
     <div id="options-container"></div>
-
     <div id="interact-btn" onclick="openPaper()">點擊查看紙條</div>
-
     <div id="paper-modal" onclick="closePaper()">
         <div id="paper-content">
             『可以坐久一點沒關係。』
             <span class="click-hint">▼ 點擊關閉</span>
         </div>
     </div>
-
     <div id="dialogue-box" onclick="nextLine()">
         <div id="speaker-name"></div>
         <div id="dialogue-text"></div>
@@ -363,9 +412,24 @@
         renderLine(currentIndex);
     }
 
-    // --- 遊戲啟動 ---
-    window.onload = () => {
+    // --- 新增：從選單進入遊戲的控制函數 ---
+    function startGame(character) {
+        // 隱藏主選單圖層
+        document.getElementById("main-menu").style.display = "none";
+        
+        if (character === 'JiangYi') {
+            console.log("進入江逸路線");
+        }
+
+        // 啟動遊戲文字渲染邏輯
         renderLine(currentIndex);
+    }
+
+    // --- 遊戲啟動設定修改 ---
+    window.onload = () => {
+        // 遊戲剛載入時，先隱藏對話相關物件，避免穿透到選單上方
+        document.getElementById("dialogue-box").style.display = "none";
+        document.getElementById("interact-btn").style.display = "none";
     };
 
 </script>

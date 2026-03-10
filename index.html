@@ -5,372 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cafe JiangYi - 初次相遇</title>
     <style>
-        /* --- 基礎設定與畫面排版 --- */
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #111;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            font-family: "Microsoft JhengHei", sans-serif;
-            overflow: hidden;
-        }
-
-        #game-container {
-            position: relative;
-            width: 1280px; 
-            height: 720px; 
-            background-color: #000;
-            box-shadow: 0 0 20px rgba(0,0,0,0.8);
-            overflow: hidden;
-        }
-
-        /* 背景圖片 */
-        #bg-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        /* --- 往回按鈕樣式 --- */
-        #back-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(166, 124, 82, 0.7);
-            color: white;
-            border: 1px solid #fff;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 100;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-
-        #back-btn:hover {
-            background-color: rgba(166, 124, 82, 1);
-        }
-
-        #back-btn:disabled {
-            display: none;
-        }
-
-        /* --- 對話框設計 --- */
-        #dialogue-box {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            height: 180px;
-            background-color: rgba(20, 20, 20, 0.85); 
-            border: 2px solid #a67c52; 
-            border-radius: 10px;
-            box-sizing: border-box;
-            padding: 40px 30px 20px 30px;
-            color: #fff;
-            cursor: pointer;
-            display: none; 
-            z-index: 50;
-        }
-
-        #speaker-name {
-            position: absolute;
-            top: -20px;
-            left: 30px;
-            background-color: #a67c52; 
-            color: #fff;
-            padding: 5px 20px;
-            font-size: 22px;
-            font-weight: bold;
-            border-radius: 5px;
-            letter-spacing: 2px;
-            display: none;
-        }
-
-        #dialogue-text {
-            font-size: 22px;
-            line-height: 1.6;
-            letter-spacing: 1px;
-        }
-
-        /* --- 選項按鈕設計 --- */
-        #options-container {
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 60%;
-            display: none; 
-            z-index: 60;
-        }
-
-        .option-btn {
-            background-color: rgba(255, 255, 255, 0.9);
-            color: #333;
-            border: 2px solid #a67c52;
-            padding: 15px 20px;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-align: center;
-        }
-
-        .option-btn:hover {
-            background-color: #a67c52;
-            color: #fff;
-        }
-
-        /* --- 紙條互動系統 --- */
-        #interact-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: rgba(255, 255, 255, 0.8);
-            border: 2px dashed #a67c52;
-            padding: 15px 30px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #5c3a21;
-            cursor: pointer;
-            border-radius: 10px;
-            animation: pulse 1.5s infinite;
-            display: none; 
-            z-index: 70;
-        }
-
-        @keyframes pulse {
-            0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(166, 124, 82, 0.7); }
-            70% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 0 15px rgba(166, 124, 82, 0); }
-            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(166, 124, 82, 0); }
-        }
-
-        #paper-modal {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: none; 
-            justify-content: center;
-            align-items: center;
-            z-index: 80;
-        }
-
-        #paper-content {
-            background-color: #fdf5e6; 
-            width: 500px;
-            height: 300px;
-            padding: 40px;
-            box-sizing: border-box;
-            border-radius: 5px;
-            box-shadow: 2px 2px 15px rgba(0,0,0,0.5);
-            font-family: "Kaiti", "DFKai-SB", serif; 
-            font-size: 30px;
-            color: #333;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            cursor: pointer;
-            transform: rotate(-2deg); 
-        }
-
-        .click-hint {
-            position: absolute;
-            bottom: 10px;
-            right: 20px;
-            font-size: 14px;
-            color: #888;
-        }
+        body { margin: 0; padding: 0; background-color: #111; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: "Microsoft JhengHei", sans-serif; overflow: hidden; }
+        #game-container { position: relative; width: 1280px; height: 720px; background-color: #000; box-shadow: 0 0 20px rgba(0,0,0,0.8); overflow: hidden; }
+        #bg-image { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease-in-out; }
+        #back-btn { position: absolute; top: 20px; right: 20px; background-color: rgba(166, 124, 82, 0.7); color: white; border: 1px solid #fff; padding: 8px 15px; border-radius: 5px; cursor: pointer; z-index: 100; font-size: 16px; transition: 0.3s; }
+        #back-btn:hover { background-color: rgba(166, 124, 82, 1); }
+        #back-btn:disabled { display: none; }
+        #dialogue-box { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); width: 90%; height: 180px; background-color: rgba(20, 20, 20, 0.85); border: 2px solid #a67c52; border-radius: 10px; box-sizing: border-box; padding: 40px 30px 20px 30px; color: #fff; cursor: pointer; display: none; z-index: 50; }
+        #speaker-name { position: absolute; top: -20px; left: 30px; background-color: #a67c52; color: #fff; padding: 5px 20px; font-size: 22px; font-weight: bold; border-radius: 5px; letter-spacing: 2px; display: none; }
+        #dialogue-text { font-size: 22px; line-height: 1.6; letter-spacing: 1px; }
+        #options-container { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); display: flex; flex-direction: column; gap: 20px; width: 60%; display: none; z-index: 60; }
+        .option-btn { background-color: rgba(255, 255, 255, 0.9); color: #333; border: 2px solid #a67c52; padding: 15px 20px; font-size: 20px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .option-btn:hover { background-color: #a67c52; color: #fff; }
+        #interact-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: rgba(255, 255, 255, 0.8); border: 2px dashed #a67c52; padding: 15px 30px; font-size: 24px; font-weight: bold; color: #5c3a21; cursor: pointer; border-radius: 10px; animation: pulse 1.5s infinite; display: none; z-index: 70; }
+        @keyframes pulse { 0% { transform: translate(-50%, -50%) scale(1); } 70% { transform: translate(-50%, -50%) scale(1.05); } 100% { transform: translate(-50%, -50%) scale(1); } }
+        #paper-modal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); display: none; justify-content: center; align-items: center; z-index: 80; }
+        #paper-content { background-color: #fdf5e6; width: 500px; height: 300px; padding: 40px; box-sizing: border-box; border-radius: 5px; font-size: 30px; color: #333; display: flex; justify-content: center; align-items: center; text-align: center; cursor: pointer; transform: rotate(-2deg); }
     </style>
 </head>
 <body>
-
 <div id="game-container">
     <img id="bg-image" src="" alt="背景">
-    
     <button id="back-btn" onclick="prevLine()" disabled>← 往回</button>
-
     <div id="options-container"></div>
-
     <div id="interact-btn" onclick="openPaper()">點擊查看紙條</div>
-
-    <div id="paper-modal" onclick="closePaper()">
-        <div id="paper-content">
-            『可以坐久一點沒關係。』
-            <span class="click-hint">▼ 點擊關閉</span>
-        </div>
-    </div>
-
-    <div id="dialogue-box" onclick="nextLine()">
-        <div id="speaker-name"></div>
-        <div id="dialogue-text"></div>
-        <span class="click-hint">▼ 點擊繼續</span>
-    </div>
+    <div id="paper-modal" onclick="closePaper()"><div id="paper-content">『可以坐久一點沒關係。』</div></div>
+    <div id="dialogue-box" onclick="nextLine()"><div id="speaker-name"></div><div id="dialogue-text"></div></div>
 </div>
 
 <script>
-    // --- 劇本資料庫 ---
     const scriptLines = [
         { bg: "JiangYi/Street-1.png", speaker: "女主角 (OS)", text: "好累……經歷了一個早上的課程，好想找個地方趴一下……<br>嗯？好濃郁的咖啡烘焙香氣……" },
         { bg: "JiangYi/Wind chimes.png", speaker: "", text: "（妳順著香味，推開了街角一間咖啡廳的門。）<br>— 清脆的風鈴聲響起 —" },
         { bg: "JiangYi/Start Counter.png", speaker: "江逸", text: "你好～歡迎光臨，請問今天想喝點什麼？" },
-        
-        // 🌟 這裡的路徑已修改為根目錄的 Menu.png
-        { bg: "Menu.png", speaker: "女主角 (OS)", text: "（有點累，腦袋鈍鈍的，不想再思考了……看看菜單上有什麼吧……）", 
-          options: [
-              { text: "我第一次來，請問有什麼推薦的嗎？", nextLine: 4 },
-              { text: "我想要……一杯熱美式就好……", nextLine: 5 }
-          ] 
-        },
-        
-        // 選項 A 路線
-        { bg: "JiangYi/Making Coffee.png", speaker: "江逸", text: "看妳好像有點累。如果怕太苦的話，可以考慮「熱的燕麥奶拿鐵」。<br>燕麥奶的甜味會中和濃縮咖啡的苦澀，適合想稍微打起精神，但怕咖啡因太多的時候。", nextLine: 6 },
-        // 選項 B 路線
-        { bg: "JiangYi/Making Coffee.png", speaker: "江逸", text: "好的，一杯熱美式。<br>不過看妳好像有點累，如果怕美式太傷胃，要不要幫妳換成溫和一點的「熱的燕麥奶拿鐵」？", nextLine: 6 },
-        
-        // 合流路線
-        { bg: "JiangYi/Start Counter.png", speaker: "女主角", text: "（好貼心的提醒……）<br>好～那一杯熱的燕麥奶拿鐵就可以了～謝謝你！" },
-        { bg: "JiangYi/Start Counter.png", speaker: "江逸", text: "有想坐在哪裡嗎？如果不介意的話，可以考慮靠窗的那個座位。" },
+        { bg: "Menu.png", speaker: "女主角 (OS)", text: "（看看菜單上有什麼吧……）", 
+          options: [{ text: "推薦一下？", nextLine: 4 }, { text: "熱美式", nextLine: 5 }] },
+        { bg: "JiangYi/Making Coffee.png", speaker: "江逸", text: "燕麥奶拿鐵適合疲憊的妳。", nextLine: 6 },
+        { bg: "JiangYi/Making Coffee.png", speaker: "江逸", text: "好的，一杯熱美式。", nextLine: 6 },
+        { bg: "JiangYi/Start Counter.png", speaker: "女主角", text: "謝謝你！" },
+        { bg: "JiangYi/Start Counter.png", speaker: "江逸", text: "坐窗邊那個位置吧。" },
         { bg: "JiangYi/Love Seat.png", speaker: "女主角", text: "好啊，謝謝你！" },
-        { bg: "JiangYi/Love Seat.png", speaker: "女主角", text: "（走向靠窗的座位，輕輕深呼吸，嘴角緩緩揚起）" },
-        { bg: "JiangYi/Seat Window.png", speaker: "女主角 (OS)", text: "感覺坐在這裡好放鬆……似乎找到了屬於自己的秘密基地了呢～" },
-        
-        // 托盤與紙條事件
-        { bg: "JiangYi/Tray.png", speaker: "女主角", text: "好香的味道～<br>（看著托盤上的咖啡，旁邊似乎壓著一張折起來的紙條）", action: "showPaperInteract" },
-        { bg: "JiangYi/Tray.png", speaker: "旁白", text: "看完紙條的那刻，心頭暖暖的，露出了十分滿足的微笑。" }
+        { bg: "JiangYi/Seat Window.png", speaker: "女主角 (OS)", text: "感覺坐在這裡好放鬆……" },
+        { bg: "JiangYi/Tray.png", speaker: "女主角", text: "好香……還有紙條？", action: "showPaperInteract" },
+        { bg: "JiangYi/Tray.png", speaker: "旁白", text: "心頭暖暖的。" }
     ];
 
-    // --- 遊戲核心變數 ---
-    let historyStack = []; 
-    let currentIndex = 0;
-    let isWaitingForInput = false;
+    let historyStack = []; let currentIndex = 0; let isWaitingForInput = false;
 
-    // --- 核心控制函數 ---
     function renderLine(index, isBacking = false) {
-        if (index >= scriptLines.length) {
-            document.getElementById("dialogue-text").innerHTML = "<b>（本次展示結束，敬請期待後續劇情！）</b>";
-            document.getElementById("speaker-name").style.display = "none";
-            document.getElementById("interact-btn").style.display = "none";
-            return;
-        }
-
+        if (index >= scriptLines.length) return;
         const line = scriptLines[index];
-        
-        // 更新背景圖與對話內容
         document.getElementById("bg-image").src = line.bg;
-        
         const nameBox = document.getElementById("speaker-name");
-        if (line.speaker) {
-            nameBox.innerText = line.speaker;
-            nameBox.style.display = "block";
-        } else {
-            nameBox.style.display = "none";
-        }
-
+        nameBox.innerText = line.speaker || "";
+        nameBox.style.display = line.speaker ? "block" : "none";
         document.getElementById("dialogue-text").innerHTML = line.text;
         document.getElementById("dialogue-box").style.display = "block";
-
-        // 更新「往回」按鈕狀態
         document.getElementById("back-btn").disabled = (historyStack.length === 0);
-
-        // 處理紙條互動
+        
+        const interactBtn = document.getElementById("interact-btn");
         if (line.action === "showPaperInteract") {
-            isWaitingForInput = true;
-            document.getElementById("interact-btn").style.display = "block";
-            document.getElementById("dialogue-box").style.pointerEvents = "none"; 
-        } else {
-            document.getElementById("interact-btn").style.display = "none";
-        }
-
-        // 處理選項
-        const optionsContainer = document.getElementById("options-container");
-        if (line.options) {
-            isWaitingForInput = true;
+            isWaitingForInput = true; interactBtn.style.display = "block";
             document.getElementById("dialogue-box").style.pointerEvents = "none";
-            optionsContainer.innerHTML = ""; 
-            
+        } else { interactBtn.style.display = "none"; }
+
+        const optContainer = document.getElementById("options-container");
+        if (line.options) {
+            isWaitingForInput = true; document.getElementById("dialogue-box").style.pointerEvents = "none";
+            optContainer.innerHTML = ""; optContainer.style.display = "flex";
             line.options.forEach(opt => {
-                const btn = document.createElement("div");
-                btn.className = "option-btn";
-                btn.innerText = opt.text;
-                btn.onclick = () => selectOption(opt.nextLine);
-                optionsContainer.appendChild(btn);
+                const btn = document.createElement("div"); btn.className = "option-btn";
+                btn.innerText = opt.text; btn.onclick = () => selectOption(opt.nextLine);
+                optContainer.appendChild(btn);
             });
-            optionsContainer.style.display = "flex";
-        } else {
-            optionsContainer.style.display = "none";
-        }
+        } else { optContainer.style.display = "none"; }
     }
 
-    // 點擊對話框進行下一句
-    function nextLine() {
-        if (isWaitingForInput) return; 
-
-        historyStack.push(currentIndex);
-
-        const currentLine = scriptLines[currentIndex];
-        if (currentLine.nextLine !== undefined) {
-            currentIndex = currentLine.nextLine;
-        } else {
-            currentIndex++;
-        }
-        renderLine(currentIndex);
-    }
-
-    // 點擊選項
-    function selectOption(nextIndex) {
-        historyStack.push(currentIndex); 
-        document.getElementById("options-container").style.display = "none";
-        document.getElementById("dialogue-box").style.pointerEvents = "auto";
-        isWaitingForInput = false;
-        currentIndex = nextIndex;
-        renderLine(currentIndex);
-    }
-
-    // 往回上一句
-    function prevLine() {
-        if (historyStack.length === 0) return;
-
-        currentIndex = historyStack.pop(); 
-        
-        isWaitingForInput = false;
-        document.getElementById("dialogue-box").style.pointerEvents = "auto";
-        document.getElementById("paper-modal").style.display = "none";
-        
-        renderLine(currentIndex, true);
-    }
-
-    // --- 紙條系統 ---
-    function openPaper() {
-        document.getElementById("interact-btn").style.display = "none";
-        document.getElementById("paper-modal").style.display = "flex";
-    }
-
-    function closePaper() {
-        document.getElementById("paper-modal").style.display = "none";
-        document.getElementById("dialogue-box").style.pointerEvents = "auto";
-        isWaitingForInput = false;
-        
-        historyStack.push(currentIndex); 
-        currentIndex++; 
-        renderLine(currentIndex);
-    }
-
-    // --- 遊戲啟動 ---
-    window.onload = () => {
-        renderLine(currentIndex);
-    };
-
+    function nextLine() { if (isWaitingForInput) return; historyStack.push(currentIndex); currentIndex++; renderLine(currentIndex); }
+    function prevLine() { if (historyStack.length === 0) return; currentIndex = historyStack.pop(); isWaitingForInput = false; document.getElementById("dialogue-box").style.pointerEvents = "auto"; document.getElementById("paper-modal").style.display = "none"; renderLine(currentIndex, true); }
+    function selectOption(next) { historyStack.push(currentIndex); isWaitingForInput = false; document.getElementById("dialogue-box").style.pointerEvents = "auto"; currentIndex = next; renderLine(currentIndex); }
+    function openPaper() { document.getElementById("interact-btn").style.display = "none"; document.getElementById("paper-modal").style.display = "flex"; }
+    function closePaper() { document.getElementById("paper-modal").style.display = "none"; document.getElementById("dialogue-box").style.pointerEvents = "auto"; isWaitingForInput = false; historyStack.push(currentIndex); currentIndex++; renderLine(currentIndex); }
+    window.onload = () => renderLine(currentIndex);
 </script>
 </body>
 </html>

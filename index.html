@@ -169,6 +169,12 @@
         document.getElementById("back-btn").disabled = (historyStack.length === 0);
 
         const interactBtn = document.getElementById("interact-btn");
+        
+        // --- 新增這兩行：確保每次換畫面，按鈕預設都在正中央 ---
+        interactBtn.style.top = "50%";
+        interactBtn.style.left = "50%";
+        // --------------------------------------------------
+
         interactBtn.style.display = "none";
         document.getElementById("options-container").style.display = "none";
         dialogueBox.style.pointerEvents = "auto";
@@ -192,6 +198,13 @@
         if (line.action === "showMenuInteract") {
             isWaitingForInput = true;
             interactBtn.innerText = "點擊菜單";
+            
+            // --- 新增這兩行：把按鈕移動到桌上的菜單位置 ---
+            interactBtn.style.top = "85%";  // 數字越大越往下 (85% 大約在桌面位置)
+            interactBtn.style.left = "58%"; // 數字越大越往右 (58% 大約在畫面偏右)
+            // ----------------------------------------------
+
+            
             interactBtn.onclick = () => {
                 historyStack.push(currentIndex);
                 currentIndex++;

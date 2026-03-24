@@ -112,3 +112,148 @@
         // Index 7 (合流 - 櫃檯)
         { bg: "JiangYi/Start Counter.png", speaker: "女主角", text: "好～那一杯熱的燕麥奶拿鐵就可以了～謝謝你！" },
         // Index 8
+        { bg: "JiangYi/Start Counter.png", speaker: "江逸", text: "有想坐在哪裡嗎？如果不介意的話，可以考慮靠窗的那個座位。" },
+        // Index 9
+        { bg: "JiangYi/Love Seat.png", speaker: "女主角", text: "好啊，謝謝你！" },
+        // Index 10
+        { bg: "JiangYi/Seat Window.png", speaker: "女主角 (OS)", text: "（坐在窗邊，感覺這份寧靜正一點一滴地治癒著疲憊……）" },
+        // Index 11
+        { bg: "JiangYi/Tray.png", speaker: "女主角", text: "好香的味道～<br>（托盤上的咖啡旁，似乎壓著一張折起來的紙條）", action: "showPaperInteract" },
+        // Index 12
+        { bg: "JiangYi/Tray.png", speaker: "旁白", text: "看完紙條的那刻，心頭暖暖的，露出了滿足的微笑。" }
+    ];
+
+    let historyStack = []; 
+    let currentIndex = 0;
+    let isWaitingForInput = false;
+
+    function goToMenu() {
+        document.getElementById("start-screen").style.display = "none";
+        document.getElementById("intro-menu-screen").style.display = "block";
+    }
+
+    function backToStart() {
+        document.getElementById("intro-menu-screen").style.display = "none";
+        document.getElementById("start-screen").style.display = "flex";
+    }
+
+    function startJiangYiStory() {
+        document.getElementById("intro-menu-screen").style.display = "none";
+        historyStack = ["intro"]; 
+        currentIndex = 0;
+        renderLine(currentIndex);
+    }
+
+    function renderLine(index, isBacking = false) {
+        if (index >= scriptLines.length) return;
+        const line = scriptLines[index];
+        
+        document.getElementById("bg-image").src = line.bg;
+        
+        const nameBox = document.getElementById("speaker-name");
+        if (line.speaker) {
+            nameBox.innerText = line.speaker;
+            nameBox.style.display = "block";
+        } else {
+            nameBox.style.display = "none";
+        }
+        document.getElementById("dialogue-text").innerHTML = line.text;
+        
+        const dialogueBox = document.getElementById("dialogue-box");
+        if (line.hideDialogue) {
+            dialogueBox.style.display = "none";
+        } else {
+            dialogueBox.style.display = "block";
+        }
+        
+        document.getElementById("back-btn").disabled = (historyStack.length === 0);
+
+        const interactBtn = document.getElementById("interact-btn");
+        interactBtn.style.display = "none";
+        document.getElementById("options-container").style.display = "none";
+        dialogueBox.style.pointerEvents = "auto";
+        isWaitingForInput = false;
+
+        if (line.options) {
+            isWaitingForInput = true;
+            dialogueBox.style.pointerEvents = "none";
+            const optContainer = document.getElementById("options-container");
+            optContainer.innerHTML = "";
+            line.options.forEach(opt => {
+                const btn = document.createElement("div");
+                btn.className = "option-btn";
+                btn.innerText = opt.text;
+                btn.onclick = () => selectOption(opt.nextLine);
+                optContainer.appendChild(btn);
+            });
+            optContainer.style.display = "flex";
+        }
+
+        if (line.action === "showMenuInteract") {
+            isWaitingForInput = true;
+            interactBtn.innerText = "點擊菜單";
+            interactBtn.onclick = () => {
+                historyStack.push(currentIndex);
+                currentIndex++;
+                renderLine(currentIndex);
+            };
+            interactBtn.style.display = "block";
+            dialogueBox.style.pointerEvents = "none";
+        }
+
+        if (line.action === "showPaperInteract") {
+            isWaitingForInput = true;
+            interactBtn.innerText = "點擊查看紙條";
+            interactBtn.onclick = openPaper;
+            interactBtn.style.display = "block";
+            dialogueBox.style.pointerEvents = "none";
+        }
+    }
+
+    function nextLine() {
+        if (isWaitingForInput) return;
+        historyStack.push(currentIndex);
+        currentIndex++;
+        renderLine(currentIndex);
+    }
+
+    function selectOption(next) {
+        historyStack.push(currentIndex);
+        currentIndex = next;
+        renderLine(currentIndex);
+    }
+
+    function prevLine() {
+        if (historyStack.length === 0) return;
+        
+        let previousState = historyStack.pop();
+        
+        if (previousState === "intro") {
+            document.getElementById("dialogue-box").style.display = "none";
+            document.getElementById("bg-image").src = "";
+            document.getElementById("interact-btn").style.display = "none";
+            document.getElementById("options-container").style.display = "none";
+            document.getElementById("back-btn").disabled = true;
+            document.getElementById("intro-menu-screen").style.display = "block";
+        } else {
+            currentIndex = previousState;
+            document.getElementById("paper-modal").style.display = "none";
+            renderLine(currentIndex, true);
+        }
+    }
+
+    function openPaper() {
+        document.getElementById("paper-modal").style.display = "flex";
+    }
+
+    function closePaper() {
+        document.getElementById("paper-modal").style.display = "none";
+        historyStack.push(currentIndex);
+        currentIndex++;
+        renderLine(currentIndex);
+    }
+
+    window.onload = () => {};
+</script>
+</body>
+</html>

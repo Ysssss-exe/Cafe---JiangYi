@@ -266,7 +266,30 @@
         renderLine(currentIndex);
     }
 
-    window.onload = () => {};
+    // --- 新增：圖片預載入系統 ---
+    function preloadImages() {
+        // 先把封面和選單等外層圖片加進來
+        const imagesToLoad = ["Start.png", "IntroMenu.png"];
+        
+        // 自動把劇本裡用到的所有背景圖抓出來
+        scriptLines.forEach(line => {
+            if (line.bg && !imagesToLoad.includes(line.bg)) {
+                imagesToLoad.push(line.bg);
+            }
+        });
+
+        // 在背景默默下載這些圖片
+        imagesToLoad.forEach(url => {
+            const img = new Image();
+            img.src = url;
+        });
+        console.log("圖片預載入完成！");
+    }
+
+    // --- 修改：網頁一打開就立刻執行預載入 ---
+    window.onload = () => {
+        preloadImages();
+    };
 </script>
 </body>
 </html>
